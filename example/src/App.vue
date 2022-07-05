@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {VisionCamera} from '../../dist/VueVisionCamrea.common'
+import {VisionCamera} from '../node_modules/vue-vision-camera/dist/VueVisionCamrea.common'
 
 export default {
   name: 'App',
