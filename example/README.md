@@ -1,4 +1,4 @@
-# vue-vision-camera
+# example
 
 ## Project setup
 ```
