@@ -4,6 +4,9 @@
   "private": true,
   "main": "dist/VueVisionCamera.common.js",
   "unpkg": "dist/VueVisionCamera.umd.min.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name VueVisionCamrea src/index.js",
