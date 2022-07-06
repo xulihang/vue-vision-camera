@@ -25,8 +25,6 @@ const closed = () => {
 
 ## Installation
 
-### Via NPM
-
 ```
 npm install vue-vision-camera
 ```
@@ -34,20 +32,15 @@ npm install vue-vision-camera
 Then import the component to use it.
 
 ```js
-import VisionCamera from 'vue-vision-camera'
+import { VisionCamera } from '../node_modules/vue-vision-camera/dist/VueVisionCamrea.common'
+import '../node_modules/vue-vision-camera/dist/VueVisionCamrea.css'
+
 export default {
   name: 'App',
   components: {
     VisionCamera
   }
 }
-```
-
-### Via CDN
-
-```
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vue-vision-camera/dist/VueVisionCamrea.umd.min.js"></script>
 ```
 
 ## Demos
