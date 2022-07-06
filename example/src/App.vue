@@ -4,7 +4,7 @@
       Start Camera
     </button>
   </div>
-  <div class="camera" :style="{display: isActive ? '' : 'none' }">
+  <div class="vision-camera" :style="{display: isActive ? '' : 'none' }">
     <VisionCamera 
       :isActive="isActive" 
       :enableFetchingLoop="enableFetchingLoop"
@@ -15,6 +15,7 @@
     >
       <svg
         :viewBox="viewBox"
+        preserveAspectRatio="xMidYMid slice"
         class="overlay"
       >
         <polygon v-bind:key="'polygon'+index" v-for="(barcodeResult,index) in barcodeResults"
@@ -38,6 +39,7 @@
 import { onMounted, ref } from 'vue'
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import { VisionCamera } from '../node_modules/vue-vision-camera/dist/VueVisionCamrea.common'
+import '../node_modules/vue-vision-camera/dist/VueVisionCamrea.css'
 
 BarcodeReader.engineResourcePath = "https://unpkg.com/dynamsoft-javascript-barcode@9.0.2/dist/";
 
@@ -103,7 +105,7 @@ export default {
 </script>
 
 <style>
-.camera {
+.vision-camera {
   top: 0;
   left: 0;
   width: 100%;
