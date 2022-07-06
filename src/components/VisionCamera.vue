@@ -8,9 +8,6 @@
 
 <script>
 import {onMounted, ref, watch, onBeforeUnmount} from 'vue';
-let devices = null;
-let localStream;
-let interval = null;
 
 export default {
   name: 'VisionCamera',
@@ -25,6 +22,9 @@ export default {
   setup(props,context) {
     const camera = ref(null);
     const canvas = ref(null);
+    let devices = null;
+    let localStream;
+    let interval = null;
     onMounted(() => {
       if (props.isActive != false) {
         playWithDesired();
@@ -161,7 +161,8 @@ export default {
     const getImageData = (video) => {
       const ctx = canvas.value.getContext('2d');
       ctx.drawImage(video, 0, 0);
-      return ctx.getImageData(0, 0, canvas.value.width, canvas.value.height)
+      return canvas.value.toDataURL('image/png', 1.0);
+      //return ctx.getImageData(0, 0, canvas.value.width, canvas.value.height)
     }
 
     const startFetchingLoop = () => {
