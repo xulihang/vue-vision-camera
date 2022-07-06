@@ -4,7 +4,7 @@
       Start Camera
     </button>
   </div>
-  <div class="camera" :style="{display: isActive ? '' : 'none' }">
+  <div class="vision-camera" :style="{display: isActive ? '' : 'none' }">
     <VisionCamera 
       :isActive="isActive" 
       :enableFetchingLoop="true"
@@ -44,9 +44,8 @@ export default {
       console.log("emit opened");
     }
 
-    const onFrameAvailable = (data) => {
+    const onFrameAvailable = () => {
       console.log("get frame");
-      console.log(data);
     }
 
     return {
@@ -61,7 +60,7 @@ export default {
 </script>
 
 <style>
-.camera {
+.vision-camera {
   top: 0;
   left: 0;
   width: 100%;

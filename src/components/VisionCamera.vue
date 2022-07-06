@@ -155,7 +155,9 @@ export default {
     watch(() => props.enableFetchingLoop, (newVal) => {
       stopFetchingLoop();
       if (newVal === true) {
-        startFetchingLoop();
+        if (props.isActive === true) {
+          startFetchingLoop();
+        }
       }
     });
 
@@ -167,19 +169,19 @@ export default {
     }
 
     const startFetchingLoop = () => {
-        let mSeconds = 100;
-        if (props.fps) {
-          mSeconds = 1000 / props.fps;
-        }
+      let mSeconds = 100;
+      if (props.fps) {
+        mSeconds = 1000 / props.fps;
+      }
 
-        const sendFrame = () => {
-          if (camera.value.videoWidth != 0) {
-            const data = getImageData(camera.value);
-            context.emit("onFrameAvailable",data);
-          }
+      const sendFrame = () => {
+        if (camera.value.videoWidth != 0) {
+          const data = getImageData(camera.value);
+          context.emit("onFrameAvailable",data);
         }
+      }
 
-        interval = setInterval(sendFrame, mSeconds);
+      interval = setInterval(sendFrame, mSeconds);
     }
 
     const stopFetchingLoop = () => {
