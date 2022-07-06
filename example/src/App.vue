@@ -13,6 +13,21 @@
       @onFrameAvailable="onFrameAvailable"
       @opened="opened"
     >
+      <svg
+        :viewBox="viewBox"
+        class="overlay"
+      >
+        <polygon v-bind:key="'polygon'+index" v-for="(barcodeResult,index) in barcodeResults"
+          :points="getPointsData(barcodeResult.localizationResult)"
+          class="barcode-polygon"
+        />
+        <text v-bind:key="'text'+index" v-for="(barcodeResult,index) in barcodeResults"
+          :x="barcodeResult.localizationResult.x1"
+          :y="barcodeResult.localizationResult.y1"
+          fill="red"
+          font-size="25"
+        > {{barcodeResult.barcodeText}}</text>
+      </svg>
       <button class="close-btn" v-on:click="closeCamera" >Close</button>
     </VisionCamera>
   </div>
@@ -33,12 +48,22 @@ export default {
   },
   setup(){
     let reader;
+    const viewBox = ref("0 0 1280 720");
+    const barcodeResults = ref([]);
     const isActive = ref(false);
     const enableFetchingLoop = ref(true);
     onMounted(async ()=>{
       BarcodeReader.license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
       reader = await BarcodeReader.createInstance();
     })
+
+    const getPointsData = (lr) => {
+      let pointsData = lr.x1 + "," + lr.y1 + " ";
+      pointsData = pointsData + lr.x2+ "," + lr.y2 + " ";
+      pointsData = pointsData + lr.x3+ "," + lr.y3 + " ";
+      pointsData = pointsData + lr.x4+ "," + lr.y4;
+      return pointsData;
+    }
 
     const startCamera = () => {
       isActive.value = true;
@@ -51,22 +76,27 @@ export default {
       console.log(arguments);
       console.log(camera);
       console.log("emit opened");
+      viewBox.value = "0 0 "+camera.videoWidth+" "+camera.videoHeight;
     }
 
     const onFrameAvailable = async (data) => {
       enableFetchingLoop.value = false;
       const results = await reader.decode(data);
-      console.log(results);
+      barcodeResults.value = results;
       enableFetchingLoop.value = true;
+      console.log(results);
     }
 
     return {
+      viewBox,
+      barcodeResults,
       isActive,
       enableFetchingLoop,
       startCamera,
       closeCamera,
       onFrameAvailable,
-      opened
+      opened,
+      getPointsData
     }
   }
 }
@@ -87,5 +117,18 @@ export default {
   position: absolute;
 }
 
+.barcode-polygon {
+  fill:rgba(85,240,40,0.5);
+  stroke:green;
+  stroke-width:1;
+}
+
+.overlay {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
 </style>
 
