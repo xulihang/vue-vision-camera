@@ -1,8 +1,15 @@
 {
   "name": "vue-vision-camera",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/VueVisionCamera.common.js",
   "unpkg": "dist/VueVisionCamera.umd.min.js",
+  "author": {
+    "name": "Xu Lihang",
+    "email": "xulihanghai@gmail.com"
+  },
+  "repository": "github:xulihang/vue-vision-camera",
+  "bugs": "https://github.com/xulihang/vue-vision-camera/issues",
+  "homepage": "https://github.com/xulihang/vue-vision-camera",
   "files": [
     "dist/"
   ],
@@ -24,6 +31,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },
+  "license": "MIT",
   "keywords": [
     "vue",
     "vuejs",
