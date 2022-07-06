@@ -147,6 +147,7 @@ export default {
       if (newVal === true) {
         playWithDesired();
       }else{
+        stopFetchingLoop();
         stop();
       }
     });
