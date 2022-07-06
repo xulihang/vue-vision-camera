@@ -52,6 +52,6 @@ export default {
 
 ## Demos
 
-[Barcode Scanning using Dynamsoft Barcode Reader](https://github.com/xulihang/vue-vision-camera/tree/main/example)
+[Barcode Scanner](https://github.com/xulihang/vue-vision-camera/tree/main/example) using [Dynamsoft Barcode Reader](https://www.dynamsoft.com/barcode-reader/overview/)
 
 
