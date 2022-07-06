@@ -84,6 +84,7 @@ export default {
     }
 
     const closed = () => {
+      console.log("emit closed");
       stopDecoding();
     }
 
@@ -101,7 +102,7 @@ export default {
           console.log(results);
         }
       }
-      setInterval(decode,40);
+      interval = setInterval(decode,40);
     }
 
     return {
