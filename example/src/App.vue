@@ -9,6 +9,7 @@
       :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
       desiredCamera="back"
+      @devicesLoaded="devicesLoaded"
       @closed="closed"
       @opened="opened"
     >
@@ -88,6 +89,10 @@ export default {
       stopDecoding();
     }
 
+    const devicesLoaded = (devices) => {
+      console.log(devices);
+    }
+
     const stopDecoding = () => {
       clearInterval(interval);
     }
@@ -114,6 +119,7 @@ export default {
       closeCamera,
       closed,
       opened,
+      devicesLoaded,
       getPointsData
     }
   }

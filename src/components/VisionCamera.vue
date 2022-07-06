@@ -10,7 +10,7 @@ import {onMounted, ref, watch, onBeforeUnmount} from 'vue';
 
 export default {
   name: 'VisionCamera',
-  emits: ['opened','closed'],
+  emits: ['opened','closed','devicesLoaded'],
   props: {
     desiredCamera: String,
     desiredResolution: {width:Number,height:Number},
@@ -32,7 +32,7 @@ export default {
 
     const onCameraOpened = () => {
       console.log("opened");
-      context.emit("opened",camera.value);
+      context.emit("opened", camera.value);
     };
 
     
@@ -48,6 +48,7 @@ export default {
         }
       }
       devices = cameraDevices;
+      context.emit("devicesLoaded", devices);
     }
 
     const playWithDesired = async () => {
