@@ -7,10 +7,9 @@
   <div class="vision-camera" :style="{display: isActive ? '' : 'none' }">
     <VisionCamera 
       :isActive="isActive" 
-      :enableFetchingLoop="enableFetchingLoop"
       :desiredResolution="{width:1280,height:720}"
       desiredCamera="founder"
-      @onFrameAvailable="onFrameAvailable"
+      @closed="closed"
       @opened="opened"
     >
       <svg
@@ -50,6 +49,9 @@ export default {
   },
   setup(){
     let reader;
+    let interval;
+    let camera;
+    let decoding = false;
     const viewBox = ref("0 0 1280 720");
     const barcodeResults = ref([]);
     const isActive = ref(false);
@@ -74,19 +76,32 @@ export default {
       isActive.value = false;
     }
 
-    const opened = (camera) => {
-      console.log(arguments);
-      console.log(camera);
+    const opened = (cam) => {
       console.log("emit opened");
+      camera = cam;
       viewBox.value = "0 0 "+camera.videoWidth+" "+camera.videoHeight;
+      startDecoding();
     }
 
-    const onFrameAvailable = async (data) => {
-      enableFetchingLoop.value = false;
-      const results = await reader.decode(data);
-      barcodeResults.value = results;
-      enableFetchingLoop.value = true;
-      console.log(results);
+    const closed = () => {
+      stopDecoding();
+    }
+
+    const stopDecoding = () => {
+      clearInterval(interval);
+    }
+
+    const startDecoding = () => {
+      const decode = async () => {
+        if (decoding === false && reader && camera) {
+          decoding = true;
+          const results = await reader.decode(camera);
+          decoding = false;
+          barcodeResults.value = results;
+          console.log(results);
+        }
+      }
+      setInterval(decode,40);
     }
 
     return {
@@ -96,7 +111,7 @@ export default {
       enableFetchingLoop,
       startCamera,
       closeCamera,
-      onFrameAvailable,
+      closed,
       opened,
       getPointsData
     }
