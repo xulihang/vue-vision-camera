@@ -1,6 +1,7 @@
 <template>
   <div class="camera-container full">
     <video class="camera full" ref="camera" v-on:loadeddata="onCameraOpened" muted autoplay="true" playsinline="true" webkit-playsinline></video>
+    <canvas style="display:none" ref="canvas"></canvas>
     <slot></slot>
   </div>
 </template>
@@ -9,17 +10,21 @@
 import {onMounted, ref, watch, onBeforeUnmount} from 'vue';
 let devices = null;
 let localStream;
+let interval = null;
 
 export default {
   name: 'VisionCamera',
-  emits: ['opened'],
+  emits: ['opened','onFrameAvailable'],
   props: {
     desiredCamera: String,
     desiredResolution: {width:Number,height:Number},
     isActive: Boolean,
+    enableFetchingLoop: Boolean,
+    fps:Number,
   },
   setup(props,context) {
     const camera = ref(null);
+    const canvas = ref(null);
     onMounted(() => {
       if (props.isActive != false) {
         playWithDesired();
@@ -27,12 +32,18 @@ export default {
     });
 
     onBeforeUnmount(() => {
-      console.log("before unmount");
+      stopFetchingLoop();
+      stop();
     });
 
     const onCameraOpened = () => {
       console.log("opened");
       context.emit("opened",camera.value);
+      canvas.value.width = camera.value.videoWidth;
+      canvas.value.height = camera.value.videoHeight;
+      if (props.enableFetchingLoop === true) {
+        startFetchingLoop();
+      }
     };
 
     
@@ -140,8 +151,42 @@ export default {
       }
     });
 
+    watch(() => props.enableFetchingLoop, (newVal) => {
+      stopFetchingLoop();
+      if (newVal === true) {
+        startFetchingLoop();
+      }
+    });
+
+    const getImageData = (video) => {
+      const ctx = canvas.value.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      return ctx.getImageData(0, 0, canvas.value.width, canvas.value.height)
+    }
+
+    const startFetchingLoop = () => {
+        let mSeconds = 100;
+        if (props.fps) {
+          mSeconds = 1000 / props.fps;
+        }
+
+        const sendFrame = () => {
+          if (camera.value.videoWidth != 0) {
+            const data = getImageData(camera.value);
+            context.emit("onFrameAvailable",data);
+          }
+        }
+
+        interval = setInterval(sendFrame, mSeconds);
+    }
+
+    const stopFetchingLoop = () => {
+      clearInterval(interval);
+    }
+
     return {
       camera,
+      canvas,
       onCameraOpened
     };
   }

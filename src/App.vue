@@ -7,8 +7,10 @@
   <div class="camera" :style="{display: isActive ? '' : 'none' }">
     <VisionCamera 
       :isActive="isActive" 
+      :enableFetchingLoop="true"
       :desiredResolution="{width:1280,height:720}"
-      desiredCamera="founder" 
+      desiredCamera="founder"
+      @onFrameAvailable="onFrameAvailable"
       @opened="opened"
     >
       <button class="close-btn" v-on:click="closeCamera" >Close</button>
@@ -41,10 +43,17 @@ export default {
       console.log(camera);
       console.log("emit opened");
     }
+
+    const onFrameAvailable = (data) => {
+      console.log("get frame");
+      console.log(data);
+    }
+
     return {
       isActive,
       startCamera,
       closeCamera,
+      onFrameAvailable,
       opened
     }
   }
