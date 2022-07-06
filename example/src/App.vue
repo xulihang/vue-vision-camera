@@ -1,5 +1,7 @@
 <template>
-  <vision-camera></vision-camera>
+  <div>
+    <vision-camera desiredCamera="back"></vision-camera>
+  </div>
 </template>
 
 <script>
