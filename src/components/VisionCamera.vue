@@ -1,11 +1,12 @@
 <template>
   <div class="camera-container full">
     <video class="camera full" ref="camera" v-on:loadeddata="onCameraOpened" muted autoplay="true" playsinline="true" webkit-playsinline></video>
+    <slot></slot>
   </div>
 </template>
 
 <script>
-import {onMounted, ref, onBeforeUnmount} from 'vue';
+import {onMounted, ref, watch, onBeforeUnmount} from 'vue';
 let devices = null;
 let localStream;
 
@@ -130,6 +131,14 @@ export default {
         alert(e.message);
       }
     };
+
+    watch(() => props.isActive, (newVal) => {
+      if (newVal === true) {
+        playWithDesired();
+      }else{
+        stop();
+      }
+    });
 
     return {
       camera,

@@ -1,16 +1,24 @@
 <template>
-  <div class="camera">
+  <div class="controls" :style="{display: isActive ? 'none' : '' }">
+    <button v-on:click="startCamera">
+      Start Camera
+    </button>
+  </div>
+  <div class="camera" :style="{display: isActive ? '' : 'none' }">
     <VisionCamera 
-      :isActive="true" 
-      desiredCamera="founder" 
+      :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
-      @opened="opened" 
-    ></VisionCamera>
+      desiredCamera="founder" 
+      @opened="opened"
+    >
+      <button class="close-btn" v-on:click="closeCamera" >Close</button>
+    </VisionCamera>
   </div>
   
 </template>
 
 <script>
+import { ref } from 'vue'
 import VisionCamera from './components/VisionCamera.vue'
 
 export default {
@@ -19,12 +27,24 @@ export default {
     VisionCamera
   },
   setup(){
+    const isActive = ref(false);
+
+    const startCamera = () => {
+      isActive.value = true;
+    }
+    const closeCamera = () => {
+      isActive.value = false;
+    }
+
     const opened = (camera) => {
       console.log(arguments);
       console.log(camera);
       console.log("emit opened");
     }
     return {
+      isActive,
+      startCamera,
+      closeCamera,
       opened
     }
   }
@@ -39,4 +59,11 @@ export default {
   height: 100%;
   position: absolute;
 }
+
+.close-btn {
+  top: 0;
+  right: 0;
+  position: absolute;
+}
+
 </style>
