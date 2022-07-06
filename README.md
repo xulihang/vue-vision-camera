@@ -1,5 +1,7 @@
 Camera component for Vue 3. We can use this component for computer vision tasks like barcode scanning, text recognition, etc.
 
+[Online demo](https://lovely-squirrel-9abb74.netlify.app/)
+
 ## Usage
 
 ```vue
@@ -7,6 +9,7 @@ Camera component for Vue 3. We can use this component for computer vision tasks 
   :isActive="isActive" 
   :desiredResolution="{width:1280,height:720}"
   desiredCamera="back"
+  @devicesLoaded="devicesLoaded"
   @closed="closed"
   @opened="opened"
 >
@@ -20,6 +23,10 @@ const opened = (cam) => {
 
 const closed = () => {
   console.log("camera closed");
+}
+
+const devicesLoaded = (devices) => {
+  console.log(devices); // get the list of existing camera devices
 }
 ```
 
