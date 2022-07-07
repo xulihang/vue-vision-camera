@@ -8,8 +8,7 @@
     <VisionCamera 
       :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
-      desiredCamera="founder"
-      facingMode="environment"
+      desiredCamera="back"
       @devicesLoaded="devicesLoaded"
       @closed="closed"
       @opened="opened"
@@ -92,6 +91,9 @@ export default {
 
     const devicesLoaded = (devices) => {
       console.log(devices);
+      devices.forEach(device => {
+        console.log(device.label);
+      });
     }
 
     const stopDecoding = () => {

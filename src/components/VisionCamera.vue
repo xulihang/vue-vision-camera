@@ -120,7 +120,6 @@ export default {
         constraints["video"]["height"] = options.desiredResolution.height;
       }
 
-
       navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
         localStream = stream;
         // Attach local stream to video element
