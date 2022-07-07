@@ -9,6 +9,7 @@
       :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
       desiredCamera="founder"
+      facingMode="environment"
       @closed="closed"
       @opened="opened"
     >

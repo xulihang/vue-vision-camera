@@ -15,6 +15,7 @@ export default {
     desiredCamera: String,
     desiredResolution: {width:Number,height:Number},
     isActive: Boolean,
+    facingMode: String,
   },
   setup(props,context) {
     const camera = ref(null);
@@ -56,12 +57,17 @@ export default {
         await loadDevices(); // load the camera devices list if it hasn't been loaded
       }
       let desiredDevice = getDesiredDevice(devices)
+      
       if (desiredDevice) {
+        let options = {};
+        options.deviceId=desiredDevice;
         if (props.desiredResolution) {
-          play(desiredDevice, props.desiredResolution);
-        }else{
-          play(desiredDevice);
+          options.desiredResolution=props.desiredResolution;
         }
+        if (props.facingMode) {
+          options.facingMode = props.facingMode;
+        }
+        play(options);
       }else{
         throw new Error("No camera detected");
       }
@@ -88,34 +94,44 @@ export default {
       }
     }
    
-    const play = (deviceId, desiredResolution) => {
+    const play = (options) => {
       stop(); // close before play
       var constraints = {};
-      
-      if (deviceId){
+
+      if (options.deviceId){
         constraints = {
-          video: {deviceId: deviceId},
+          video: {deviceId: options.deviceId},
           audio: false
         }
       }else{
         constraints = {
-          video: true,
+          video: {width:1280, height:720},
           audio: false
         }
       }
-
-      if (desiredResolution) {
-        constraints["video"]["width"] = desiredResolution.width;
-        constraints["video"]["height"] = desiredResolution.height;
+      
+      if (options.facingMode) {
+        delete constraints["video"]["deviceId"];
+        constraints["video"]["facingMode"] = { exact: options.facingMode };
       }
-        
+
+      if (options.desiredResolution) {
+        constraints["video"]["width"] = options.desiredResolution.width;
+        constraints["video"]["height"] = options.desiredResolution.height;
+      }
+
+
       navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
         localStream = stream;
         // Attach local stream to video element
         camera.value.srcObject = stream;
       }).catch(function(err) {
-        console.error('getUserMediaError', err, err.stack);
-        alert(err.message);
+        if (options.facingMode) { // facing mode not supported on desktop Chrome
+          delete options["facingMode"];
+          play(options);
+        }else{
+          console.error('getUserMediaError', err, err.stack);
+        }
       });
     }
    
