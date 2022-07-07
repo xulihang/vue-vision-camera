@@ -40,8 +40,8 @@ npm install vue-vision-camera
 Then import the component to use it.
 
 ```js
-import { VisionCamera } from '../node_modules/vue-vision-camera/dist/VueVisionCamrea.common'
-import '../node_modules/vue-vision-camera/dist/VueVisionCamrea.css'
+import { VisionCamera } from 'vue-vision-camera'
+import 'vue-vision-camera/dist/VueVisionCamera.css'
 
 export default {
   name: 'App',
