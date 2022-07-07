@@ -10,6 +10,7 @@
       :desiredResolution="{width:1280,height:720}"
       desiredCamera="founder"
       facingMode="environment"
+      @devicesLoaded="devicesLoaded"
       @closed="closed"
       @opened="opened"
     >
@@ -38,6 +39,10 @@ export default {
       isActive.value = false;
     }
 
+    const devicesLoaded = (devices) => {
+      console.log(devices);
+    }
+
     const opened = (camera) => {
       console.log(arguments);
       console.log(camera);
@@ -52,6 +57,7 @@ export default {
       isActive,
       startCamera,
       closeCamera,
+      devicesLoaded,
       closed,
       opened
     }
