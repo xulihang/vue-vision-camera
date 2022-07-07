@@ -9,6 +9,7 @@ Camera component for Vue 3. We can use this component for computer vision tasks 
   :isActive="isActive" 
   :desiredResolution="{width:1280,height:720}"
   desiredCamera="back"
+  facingMode="environment"
   @devicesLoaded="devicesLoaded"
   @closed="closed"
   @opened="opened"
@@ -53,5 +54,15 @@ export default {
 ## Demos
 
 [Barcode Scanner](https://github.com/xulihang/vue-vision-camera/tree/main/example) using [Dynamsoft Barcode Reader](https://www.dynamsoft.com/barcode-reader/overview/)
+
+
+## FAQ
+
+How to specify which camera to use?
+
+1. Use the `desiredCamera` prop. If one of the camera's name contains it, then it will be used. You can get the devices list in the `devicesLoaded` event.
+2. Use the `facingMode` prop. Set it to `environment` to use the back camera. Set it to `user` to use the front camera. Please note that this is not supported on Desktop.
+
+You can use the two props together.
 
 

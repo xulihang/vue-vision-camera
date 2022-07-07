@@ -1,6 +1,6 @@
 {
   "name": "vue-vision-camera",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/VueVisionCamera.common.js",
   "unpkg": "dist/VueVisionCamera.umd.min.js",
   "author": {
