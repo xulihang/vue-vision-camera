@@ -8,7 +8,8 @@
     <VisionCamera 
       :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
-      desiredCamera="back"
+      desiredCamera="founder"
+      facingMode="environment"
       @devicesLoaded="devicesLoaded"
       @closed="closed"
       @opened="opened"
@@ -38,8 +39,8 @@
 <script>
 import { onMounted, ref } from 'vue'
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
-import { VisionCamera } from '../node_modules/vue-vision-camera/dist/VueVisionCamrea.common'
-import '../node_modules/vue-vision-camera/dist/VueVisionCamrea.css'
+import { VisionCamera } from 'vue-vision-camera'
+import 'vue-vision-camera/dist/VueVisionCamera.css'
 
 BarcodeReader.engineResourcePath = "https://unpkg.com/dynamsoft-javascript-barcode@9.0.2/dist/";
 
