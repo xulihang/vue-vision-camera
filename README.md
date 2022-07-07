@@ -41,7 +41,6 @@ Then import the component to use it.
 
 ```js
 import { VisionCamera } from 'vue-vision-camera'
-import 'vue-vision-camera/dist/VueVisionCamera.css'
 
 export default {
   name: 'App',
