@@ -40,7 +40,6 @@
 import { onMounted, ref } from 'vue'
 import { BarcodeReader } from "dynamsoft-javascript-barcode";
 import { VisionCamera } from 'vue-vision-camera'
-import 'vue-vision-camera/dist/VueVisionCamera.css'
 
 BarcodeReader.engineResourcePath = "https://unpkg.com/dynamsoft-javascript-barcode@9.0.2/dist/";
 
