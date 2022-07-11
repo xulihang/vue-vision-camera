@@ -32,14 +32,13 @@ export default {
     });
 
     const onCameraOpened = () => {
-      console.log("opened");
       context.emit("opened", camera.value);
     };
 
     
     const loadDevices = async () => {
       if (checkBrowser() === "Safari") {
-        console.log("is safari");
+        //console.log("is safari");
         const constraints = {video: true, audio: false};
         await navigator.mediaDevices.getUserMedia(constraints)
       }

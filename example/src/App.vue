@@ -8,7 +8,7 @@
     <VisionCamera 
       :isActive="isActive" 
       :desiredResolution="{width:1280,height:720}"
-      desiredCamera="back"
+      desiredCamera="founder"
       facingMode="environment"
       @devicesLoaded="devicesLoaded"
       @closed="closed"
