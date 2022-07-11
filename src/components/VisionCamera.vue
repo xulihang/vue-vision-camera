@@ -37,11 +37,8 @@ export default {
 
     
     const loadDevices = async () => {
-      if (checkBrowser() === "Safari") {
-        //console.log("is safari");
-        const constraints = {video: true, audio: false};
-        await navigator.mediaDevices.getUserMedia(constraints)
-      }
+      const constraints = {video: true, audio: false};
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
       const mediaDevices = await navigator.mediaDevices.enumerateDevices();
       let cameraDevices = [];
       for (let i=0;i<mediaDevices.length;i++){
@@ -51,6 +48,11 @@ export default {
         }
       }
       devices = cameraDevices;
+      const tracks = stream.getTracks();
+      for (let i=0;i<tracks.length;i++) {
+        const track = tracks[i];
+        track.stop();
+      }
       context.emit("devicesLoaded", devices);
     }
 
@@ -151,20 +153,6 @@ export default {
         alert(e.message);
       }
     };
-
-    const checkBrowser = () => {
-      // Get the user-agent string
-      let userAgentString = navigator.userAgent;
-      if (userAgentString.indexOf("Chrome") > -1) {
-        return "Chrome";
-      }else if (userAgentString.indexOf("MSIE") > -1 || userAgentString.indexOf("rv:") > -1) {
-        return "IE";
-      }else if (userAgentString.indexOf("Firefox") > -1) {
-        return "Firefox";
-      }else if (userAgentString.indexOf("Safari") > -1) {
-        return "Safari";
-      }
-    }
 
     watch(() => props.isActive, (newVal) => {
       if (newVal === true) {
