@@ -38,8 +38,8 @@ export default {
 
     
     const loadDevices = async () => {
-      var constraints = {video: true, audio: false};
-      await navigator.mediaDevices.getUserMedia(constraints)
+      //var constraints = {video: true, audio: false};
+      //await navigator.mediaDevices.getUserMedia(constraints)
       const mediaDevices = await navigator.mediaDevices.enumerateDevices();
       var cameraDevices = [];
       for (var i=0;i<mediaDevices.length;i++){
