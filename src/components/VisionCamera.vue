@@ -137,7 +137,11 @@ export default {
     const stop = () => {
       try{
         if (localStream){
-          localStream.getTracks().forEach(track => track.stop());
+          const tracks = localStream.getTracks();
+          for (let i=0;i<tracks.length;i++) {
+            const track = tracks[i];
+            track.stop();
+          }
           context.emit('closed');
         }
       } catch (e){
