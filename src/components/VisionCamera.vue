@@ -38,12 +38,15 @@ export default {
 
     
     const loadDevices = async () => {
-      //var constraints = {video: true, audio: false};
-      //await navigator.mediaDevices.getUserMedia(constraints)
+      if (checkBrowser() === "Safari") {
+        console.log("is safari");
+        const constraints = {video: true, audio: false};
+        await navigator.mediaDevices.getUserMedia(constraints)
+      }
       const mediaDevices = await navigator.mediaDevices.enumerateDevices();
-      var cameraDevices = [];
-      for (var i=0;i<mediaDevices.length;i++){
-        var device = mediaDevices[i];
+      let cameraDevices = [];
+      for (let i=0;i<mediaDevices.length;i++){
+        let device = mediaDevices[i];
         if (device.kind == 'videoinput'){ // filter out audio devices
           cameraDevices.push(device);
         }
@@ -57,7 +60,7 @@ export default {
         await loadDevices(); // load the camera devices list if it hasn't been loaded
       }
       let desiredDevice = getDesiredDevice(devices)
-      
+
       if (desiredDevice) {
         let options = {};
         options.deviceId=desiredDevice;
@@ -67,6 +70,7 @@ export default {
         if (props.facingMode) {
           options.facingMode = props.facingMode;
         }
+
         play(options);
       }else{
         throw new Error("No camera detected");
@@ -148,6 +152,20 @@ export default {
         alert(e.message);
       }
     };
+
+    const checkBrowser = () => {
+      // Get the user-agent string
+      let userAgentString = navigator.userAgent;
+      if (userAgentString.indexOf("Chrome") > -1) {
+        return "Chrome";
+      }else if (userAgentString.indexOf("MSIE") > -1 || userAgentString.indexOf("rv:") > -1) {
+        return "IE";
+      }else if (userAgentString.indexOf("Firefox") > -1) {
+        return "Firefox";
+      }else if (userAgentString.indexOf("Safari") > -1) {
+        return "Safari";
+      }
+    }
 
     watch(() => props.isActive, (newVal) => {
       if (newVal === true) {
